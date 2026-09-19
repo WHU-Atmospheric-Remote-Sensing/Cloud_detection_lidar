@@ -27,15 +27,17 @@ Each sample contains ten consecutive profiles and five lidar channels:
 - elastic signals at 1064, 355, and 532 nm;
 - volume depolarization ratios at 355 and 532 nm.
 
-The three elastic channels are normalized using station- and channel-specific median and median absolute deviation (MAD) statistics. Range correction and logarithmic compression are then applied:
+The three elastic channels are normalized using station- and channel-specific median and median absolute deviation (MAD) statistics. For elastic channel $c$, let $m_c$ denote the median signal and let $d_c$ denote its MAD. The preprocessing is
 
 $$
-P_{\mathrm{MAD}}=\frac{1}{2}\left(\frac{P-\operatorname{median}(P)}{K\,\operatorname{MAD}(P)+\epsilon}+1\right),
+z_c=\frac{P_c-m_c}{K d_c+\epsilon},
 \qquad
-X=\log\left(1+P_{\mathrm{MAD}}R^2\right),
+P_c^{norm}=\frac{z_c+1}{2},
+\qquad
+X_c=\ln\left(1+P_c^{norm}R^2\right).
 $$
 
-where $K=4$ in the current configuration and $R$ is range in kilometres. The depolarization-ratio channels are clipped to their physical interval and are not range corrected.
+Here, $d_c$ is the median of $|P_c-m_c|$, $K=4$ in the current configuration, $\epsilon$ is a small constant for numerical stability, and $R$ is range in kilometres. The depolarization-ratio channels are clipped to their physical interval and are not range corrected or logarithmically transformed.
 
 The native vertical grid contains 2,048 bins at 15 m spacing. To reduce computation without sacrificing boundary detail, the grid is retained at full resolution below 12 km, averaged by a factor of four from 12–24 km, and averaged by a factor of eight above 24 km. This produces 1,056 vertical elements for the network.
 
