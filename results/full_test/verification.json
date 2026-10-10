@@ -1,0 +1,155 @@
+{
+  "dataset_role": "full_test",
+  "n_files": 84,
+  "protocol": "paper",
+  "threshold": 0.65,
+  "aggregation": "global micro pixel counts",
+  "invalid_pixels": "excluded",
+  "boundary_min_thickness_m": 90,
+  "matching_max_gap_m": 300,
+  "pixel_metrics": [
+    {
+      "method": "E1",
+      "n_files": 84,
+      "tp": 912205,
+      "fp": 90888,
+      "fn": 50983,
+      "tn": 41341572,
+      "iou": 0.8654072381877588,
+      "f1": 0.9278480542709816,
+      "precision": 0.9093922497714568,
+      "recall": 0.9470684850724884,
+      "accuracy": 0.9966536423738588
+    },
+    {
+      "method": "E2",
+      "n_files": 84,
+      "tp": 896681,
+      "fp": 70795,
+      "fn": 66507,
+      "tn": 41361665,
+      "iou": 0.8672105827658675,
+      "f1": 0.9288835343695226,
+      "precision": 0.926825058192658,
+      "recall": 0.9309511746408801,
+      "accuracy": 0.9967614128695473
+    },
+    {
+      "method": "E3",
+      "n_files": 84,
+      "tp": 913674,
+      "fp": 73612,
+      "fn": 49514,
+      "tn": 41358848,
+      "iou": 0.881244212962963,
+      "f1": 0.9368738060594501,
+      "precision": 0.9254400447286805,
+      "recall": 0.9485936286581643,
+      "accuracy": 0.9970957868128352
+    },
+    {
+      "method": "E4",
+      "n_files": 84,
+      "tp": 910363,
+      "fp": 74722,
+      "fn": 52825,
+      "tn": 41357738,
+      "iou": 0.8771116956190806,
+      "f1": 0.9345333020577712,
+      "precision": 0.9241466472436388,
+      "recall": 0.9451560858316341,
+      "accuracy": 0.996991507241498
+    },
+    {
+      "method": "E5",
+      "n_files": 84,
+      "tp": 749450,
+      "fp": 423827,
+      "fn": 213738,
+      "tn": 41008633,
+      "iou": 0.5403330173069505,
+      "f1": 0.7015794782502873,
+      "precision": 0.6387664635035034,
+      "recall": 0.7780931656125284,
+      "accuracy": 0.9849615460530289
+    }
+  ],
+  "boundary_metrics": [
+    {
+      "method": "E1",
+      "manual_layer_count": 12612,
+      "matched_layer_count": 11869,
+      "detection_rate": 0.9410878528385664,
+      "base_mae_m": 55.353020473502404,
+      "base_bias_m": -13.134636447889468,
+      "base_rmse_m": 159.0339853387071,
+      "top_mae_m": 93.98222259668042,
+      "top_bias_m": -18.86468952734012,
+      "top_rmse_m": 276.5393462531479
+    },
+    {
+      "method": "E2",
+      "manual_layer_count": 12612,
+      "matched_layer_count": 11855,
+      "detection_rate": 0.9399777989216619,
+      "base_mae_m": 63.38211725010544,
+      "base_bias_m": -1.2488401518346695,
+      "base_rmse_m": 181.87378769917765,
+      "top_mae_m": 98.18388865457611,
+      "top_bias_m": -28.284268241248412,
+      "top_rmse_m": 278.511763114536
+    },
+    {
+      "method": "E3",
+      "manual_layer_count": 12612,
+      "matched_layer_count": 11840,
+      "detection_rate": 0.9387884554392641,
+      "base_mae_m": 59.0625,
+      "base_bias_m": -12.785472972972983,
+      "base_rmse_m": 164.44081382065707,
+      "top_mae_m": 82.25295608108107,
+      "top_bias_m": -2.7782939189189264,
+      "top_rmse_m": 229.0280902678899
+    },
+    {
+      "method": "E4",
+      "manual_layer_count": 12612,
+      "matched_layer_count": 11765,
+      "detection_rate": 0.9328417380272757,
+      "base_mae_m": 64.32596685082873,
+      "base_bias_m": -13.543986400339994,
+      "base_rmse_m": 183.87962049158466,
+      "top_mae_m": 82.0862728431789,
+      "top_bias_m": -0.9549511262218506,
+      "top_rmse_m": 230.92463212129834
+    },
+    {
+      "method": "E5",
+      "manual_layer_count": 12612,
+      "matched_layer_count": 10851,
+      "detection_rate": 0.8603710751665081,
+      "base_mae_m": 123.56234448437932,
+      "base_bias_m": 66.32153718551285,
+      "base_rmse_m": 302.8815509328581,
+      "top_mae_m": 250.6801216477743,
+      "top_bias_m": -96.44733204312975,
+      "top_rmse_m": 528.6341496172506
+    }
+  ],
+  "max_abs_metric_difference": {
+    "E1": 0.0,
+    "E2": 0.0,
+    "E3": 0.0,
+    "E4": 0.0,
+    "E5": 0.0
+  },
+  "reference_tolerance": 0.002,
+  "passed": true,
+  "max_abs_boundary_mae_difference_m": {
+    "E1": 0.015165557334228197,
+    "E3": 0.022804054054070377,
+    "E5": 2.842170943040401e-14
+  },
+  "boundary_mae_tolerance_m": 0.1,
+  "reference_matched_layer_counts_equal": true
+}

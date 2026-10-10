@@ -1,0 +1,26 @@
+{
+  "S001-CS": {
+    "355p": {
+      "median": 1.9967066202859287,
+      "mad": 2.1000000345000007,
+      "K": 4.0
+    },
+    "532p": {
+      "median": 1.2278443307410185,
+      "mad": 1.3553892419266473,
+      "K": 4.0
+    },
+    "1064": {
+      "median": 0.468063917272786,
+      "mad": 0.5994677795369245,
+      "K": 4.0
+    }
+  },
+  "provenance": {
+    "source": "Changsha 2026-04-25 fixed-UTC 10-minute pre-overlap signals",
+    "purpose": "single-day E3 compatibility test; not a production climatological normalization",
+    "zero_time_bins": 17,
+    "pgr355": 0.022,
+    "pgr532": 0.03333
+  }
+}

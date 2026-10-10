@@ -1,102 +1,97 @@
-# Cloud-Layer Detection from Ground-Based Lidar
+# Cloud-layer detection from ground-based lidar
 
-This repository accompanies our work on pixel-wise cloud detection and cloud-boundary retrieval from ground-based multiwavelength polarization lidar observations. The model produces a cloud-probability mask on a time-height grid, from which individual cloud layers, cloud-base heights, and cloud-top heights can be derived.
+User release of **A Self-Supervised and Distillation-Guided Framework for Robust Cloud-Layer Identification in Multi-Channel Raman Lidar Networks**. Five lidar channels produce cloud probabilities, masks, cloud bases and **detectable cloud tops**. Default detector: **E3**, threshold **0.65**.
 
-> **Release status:** the repository is being prepared for public release. Model code, trained weights, configuration files, and a small example dataset will be added after the accompanying manuscript and data documentation are finalized.
+## Install and run
 
-## Model overview
+Python 3.10+. Run from this repository; CPU is supported. Add `--device cuda` to use a GPU.
 
-The network is a compact **temporal-vertical U-Net** designed around the strong anisotropy of lidar curtains: adjacent profiles provide temporal context, whereas cloud boundaries are primarily organized along the vertical dimension.
-
-```mermaid
-flowchart LR
-    A[Five-channel lidar window<br/>10 profiles × range bins] --> B[Temporal-vertical stem]
-    B --> C[Vertical encoder<br/>Z → Z/2 → Z/4 → Z/8]
-    C --> D[Dilated bottleneck]
-    D --> E[Vertical decoder]
-    C -. gated skip features .-> E
-    E --> F[1 × 1 segmentation head]
-    F --> G[Cloud-probability mask]
-    G --> H[Cloud layers<br/>base and top heights]
+```bash
+python -m pip install .
+python -m lidar_cloud predict --input data/examples --output outputs/examples
 ```
 
-### Input and preprocessing
+Each day produces **one PNG, one layer-height CSV and one prediction H5**, named `<station_id>_<YYYYMMDD>_<model>`. Input files are unchanged. The three labeled examples cover Aksu, Yan'an and Fuzhou; see the [data guide](data/README.md).
 
-Each sample contains ten consecutive profiles and five lidar channels:
+![Executed E3 example: Fuzhou 2025-01-04](results/visualization/58847_20250104_E3.png)
 
-- elastic signals at 1064, 355, and 532 nm;
-- volume depolarization ratios at 355 and 532 nm.
+Plots show the 1064 nm signal up to **10 km**, with solid model contours and dotted manual labels. Saved predictions retain the full observed height range. [All example figures](results/visualization/README.md).
 
-The three elastic channels are normalized using station- and channel-specific median and median absolute deviation (MAD) statistics. For elastic channel $c$, let $m_c$ denote the median signal and let $d_c$ denote its MAD. The preprocessing is
+For 10 profiles, select one H5 with `--profiles 0:10`; omit the option for the whole sequence. Single profiles are supported but not recommended. [Input/output guide](docs/input-format.md) ? [Python example](examples/python_usage.py).
 
-$$
-z_c=\frac{P_c-m_c}{K d_c+\epsilon},
-\qquad
-P_c^{norm}=\frac{z_c+1}{2},
-\qquad
-X_c=\ln\left(1+P_c^{norm}R^2\right).
-$$
+## Verify results
 
-Here, $d_c$ is the median of $|P_c-m_c|$, $K=4$ in the current configuration, $\epsilon$ is a small constant for numerical stability, and $R$ is range in kilometres. The depolarization-ratio channels are clipped to their physical interval and are not range corrected or logarithmically transformed.
+```bash
+python -m lidar_cloud verify --data data/examples --output outputs/verification
+```
 
-The native vertical grid contains 2,048 bins at 15 m spacing. To reduce computation without sacrificing boundary detail, the grid is retained at full resolution below 12 km, averaged by a factor of four from 12–24 km, and averaged by a factor of eight above 24 km. This produces 1,056 vertical elements for the network.
+Open `outputs/verification/metrics.png`. The accompanying CSV/JSON files report E1?E5 scores for the **three-day subset**, not the full test.
 
-### Architecture
+Place the separate 84-file `TEST_DATASET` beside this repository, then run:
 
-The current large configuration has approximately **4.52 million parameters** and uses the following components:
+```bash
+python scripts/run_test_dataset.py --device cuda --strict
+```
 
-- **Temporal-vertical blocks:** a $(3\times1)$ temporal convolution followed by a $(1\times5)$ vertical convolution, with batch normalization, GELU activation, and residual connections when dimensions agree.
-- **Vertical-only encoder:** three $(1\times2)$ max-pooling operations reduce height while preserving all ten temporal positions.
-- **Multi-scale features:** channel widths increase from 48 to 96, 192, and 384; vertical dilation reaches four in the bottleneck.
-- **Gated skip connections:** learned $(1\times5)$ sigmoid gates suppress noisy encoder features before decoder fusion.
-- **Dense output head:** a $1\times1$ convolution returns one cloud logit for every time-height pixel.
+Strict mode checks the data and all **420 prediction masks** against the original implementation. Outputs are in `outputs/verification/full_test/`; open `metrics.png` and `reproduction.json`. Omit `--device cuda` for CPU; use `--check-only` for integrity only. [Full-test instructions](docs/test-dataset.md) ? [Archive checksum](results/test_dataset.json).
 
-Unlike a conventional image U-Net, the network never pools along time. It therefore retains the original temporal sampling while learning cloud continuity and vertically sharp cloud boundaries.
+## Deploy at your station
 
-## Three-stage training
+Prepare the five channels after instrument corrections and temporal averaging, **before MAD, range-squared correction or logarithms**. Estimate and freeze statistics for your own station/instrument:
 
-The training procedure is designed to exploit large volumes of unlabeled lidar data before fine-tuning on a comparatively small manually annotated dataset.
+```bash
+python -m lidar_cloud compute-stats --input calibration_h5 --station MY-LIDAR --instrument-id receiver-01 --output outputs/station_stats/my_station.json
+python -m lidar_cloud predict --input measurements_h5 --output outputs/my_station --station MY-LIDAR --stats outputs/station_stats/my_station.json
+```
 
-1. **Self-supervised pretraining.** The network reconstructs the complete five-channel input, randomly masked channels, and a randomly masked temporal profile. The objective is
+Use at least eight representative days, including day and night, with the same processing and averaging as inference. Missing or invalid MAD is an error. Check a locally annotated subset before operational use. [Station deployment guide](docs/station-deployment.md) covers calibration, irregular inputs and the separate Changsha/Beijing reference instruments.
 
-   $$
-   \mathcal{L}_{\mathrm{stage\,1}}
-   =\mathcal{L}_{\mathrm{recon}}
-   +0.5\mathcal{L}_{\mathrm{channel}}
-   +0.5\mathcal{L}_{\mathrm{time}}.
-   $$
+## Pretrained weights for reuse
 
-2. **Weakly supervised pretraining.** The reconstruction head is replaced by the segmentation head and the model learns from continuous cloud-score targets. A weighted binary cross-entropy objective accounts for class imbalance and places additional penalties on aerosol-dominated and near-range blind-zone pixels.
+**R1/R2 are reusable initialization weights; E1?E4 are final detectors, including the staged E3/E4 models.** All six checkpoints contain model parameters only, about 17.33 MiB each. E5 is the reproduced VDE baseline and has no neural weights. Training code, training data and optimizer states are outside this user release.
 
-3. **Supervised fine-tuning.** The decoder and segmentation head are fine-tuned with manually annotated binary cloud masks using focal binary cross-entropy. The encoder and bottleneck can be frozen to retain the representations learned from the larger pretraining datasets.
+```python
+from lidar_cloud import load_model, load_backbone
+pretrained = load_model("R1")    # includes reconstruction head
+backbone = load_backbone("R2")  # attach your own task head
+```
 
-## Example cloud masks
+[Weight sources and checksums](lidar_cloud/resources/models.json) ? [Python usage](examples/README.md) ? [Paper annotation-efficiency figure](results/visualization/annotation_efficiency.png).
 
-Solid contours show the model initialized through the pretraining stages; dotted contours show direct supervised training on the same manually labeled data.
+## Reference results
 
-![Cloud-mask examples](assets/cloud_mask_examples.png)
+E1?E5 follow the manuscript's result order. The pixel values below match Table 2 and the original full-test implementation.
 
-Pretraining is particularly useful when only a small number of manually labeled days is available:
+| Model | Configuration | IoU | F1 | Precision | Recall |
+|---|---|---:|---:|---:|---:|
+| E1 | Direct supervised | 0.865 | 0.928 | 0.909 | 0.947 |
+| E2 | Direct supervised | 0.867 | 0.929 | 0.927 | 0.931 |
+| **E3** | **Primary staged detector** | **0.881** | **0.937** | **0.925** | **0.949** |
+| E4 | Staged comparison detector | 0.877 | 0.935 | 0.924 | 0.945 |
+| E5 | Reproduced VDE | 0.540 | 0.702 | 0.639 | 0.778 |
 
-![F1 score versus training size](assets/f1_vs_training_size.png)
+Paper Table 3 boundary values are shown below; E2 is an additional evaluation.
 
-## Output and layer extraction
+| Model | Cloud-base MAE (m) | Detectable-top MAE (m) | Layer detection |
+|---|---:|---:|---:|
+| E1 | 55.3 | 94.0 | 94.1% |
+| E2 | 63.4 | 98.2 | 94.0% |
+| E3 | 59.1 | 82.2 | 93.9% |
+| E5 | 123.6 | 250.7 | 86.0% |
 
-The sigmoid output is thresholded to obtain a binary cloud mask. Vertically contiguous cloud-positive bins within each profile are treated as individual layers; the lowest and highest positive bins define cloud base and cloud top, respectively. Evaluation utilities for one-to-one physical layer matching and boundary-error statistics will be included in the public release.
+The executable boundary rerun differs from archived values by at most 0.023 m because of floating-point matching ties; E1 base/E3 top round to 55.4/82.3 in that rerun. [Measured results](results/README.md) retain the distinction. The release follows verified checkpoint preprocessing (frozen station MAD, K=4); [paper correspondence](docs/paper-correspondence.md) documents the PDF's normalization/provenance discrepancies and VDE teacher/baseline distinction.
 
-## Planned release contents
+## Repository guide
 
-- PyTorch model and preprocessing code;
-- training scripts for all three stages;
-- inference and cloud-layer extraction utilities;
-- pretrained weights and reproducible configuration files;
-- a small, license-compatible example dataset;
-- evaluation and figure-generation scripts.
+| Location | Purpose |
+|---|---|
+| `lidar_cloud/` | Inference, calibration, evaluation, visualization and six parameter-only weights |
+| `data/` | Three labeled example days and their manifest |
+| `docs/` | Input format, station deployment, full-test and paper correspondence guides |
+| `examples/` | Python usage and historical instrument-statistics configurations |
+| `scripts/` | Strict full-test runner |
+| `results/` | Reference scores, figures and one consolidated validation summary |
+| `tests/` | Inference/calibration/reproduction checks |
+| `outputs/` | Local generated predictions, scores and statistics; excluded from Git |
 
-## Citation
-
-The manuscript citation and DOI will be added when available. If you use this repository before then, please cite the repository URL and the release version.
-
-## License
-
-This project is released under the [MIT License](LICENSE).
+Cite the manuscript title above and release version 1.0.0; the final DOI is pending. [MIT License](LICENSE) applies to code and released weights. CARLNET observation-data terms are supplied separately by the data owner.

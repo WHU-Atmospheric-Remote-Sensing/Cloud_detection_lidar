@@ -1,0 +1,6 @@
+{
+  "51628": {"name": "Aksu", "elevation_m": 1107.1},
+  "53845": {"name": "Yan'an", "elevation_m": 1180.4},
+  "58847": {"name": "Fuzhou", "elevation_m": 84.1},
+  "provenance": "Original paper_anli/PHD_paper_chinese/recompute_radiosonde_validation_vde_v2.py: STATION_ELEVATION_M; paper plotting scripts use the same values."
+}

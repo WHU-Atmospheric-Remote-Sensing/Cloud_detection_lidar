@@ -1,0 +1,65 @@
+{
+  "S002-BJ": {
+    "355p": {
+      "median": 0.9137864666750024,
+      "mad": 0.861390839262519,
+      "K": 4.0
+    },
+    "532p": {
+      "median": 1.580697935791484,
+      "mad": 1.4932720427083472,
+      "K": 4.0
+    },
+    "1064": {
+      "median": 0.4200906172842587,
+      "mad": 0.3988325795929457,
+      "K": 4.0
+    }
+  },
+  "provenance": {
+    "source": "KJB DAT fixed-UTC 10-minute pre-overlap signals",
+    "station_id": "S002-BJ",
+    "selected_date_folders": [
+      "2025-12-08",
+      "2025-12-19",
+      "2026-01-05",
+      "2026-01-07",
+      "2026-06-02",
+      "2026-07-09",
+      "2026-08-15",
+      "2026-09-09"
+    ],
+    "date_folder_policy": "YYYY-MM-DD only",
+    "requested_file_count": 784,
+    "accepted_profile_count": 784,
+    "stored_bin_counts": {
+      "2048": 350,
+      "3500": 434
+    },
+    "processing_bins": 2048,
+    "zero_time_bins": 10,
+    "pgr355": 0.022,
+    "pgr532": 0.03333,
+    "dead_time_by_channel_s": {
+      "355p": 5e-09,
+      "355s": 5e-09,
+      "353": 5e-09,
+      "354": 5e-09,
+      "386": 5e-09,
+      "407": 5e-09,
+      "532p": 5e-09,
+      "532s": 5e-09,
+      "607": 5e-09,
+      "1064": 2.2e-08,
+      "1064p": 2.2e-08,
+      "1064s": 2.2e-08,
+      "1056": 2.2e-08
+    },
+    "overlap_correction": "disabled",
+    "sample_counts": {
+      "355p": 98608,
+      "532p": 95876,
+      "1064": 109391
+    }
+  }
+}

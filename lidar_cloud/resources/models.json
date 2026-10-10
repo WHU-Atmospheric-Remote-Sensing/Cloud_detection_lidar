@@ -1,0 +1,56 @@
+{
+  "E1": {
+    "file": "weights/E1.pth",
+    "sha256": "6e2e1544c5068c263c9814ac45469829db35fe0b90a094455af1e55352a3c2c9",
+    "bytes": 18168654,
+    "description": "Direct supervised; paper E1; original include experiment checkpoint",
+    "source_checkpoint": "checkpoints_stage12_wo_stage3_include/stage3_epoch_80.pth",
+    "paper_id": "E1",
+    "parameter_export_exact": true
+  },
+  "E2": {
+    "file": "weights/E2.pth",
+    "sha256": "400b93f0cb0f67c9df542384e5644e920eab66e073d4b9ce82ce0d03d91b7374",
+    "bytes": 18168654,
+    "description": "Direct supervised; paper E2; original exclude experiment checkpoint",
+    "source_checkpoint": "checkpoints_stage12_wo_stage3_exclude/stage3_epoch_70.pth",
+    "paper_id": "E2",
+    "parameter_export_exact": true
+  },
+  "E3": {
+    "file": "weights/E3.pth",
+    "sha256": "b3017abb40d67d13219f3f6291b513e3374546224919a06fd1eb8632a16f2615",
+    "bytes": 18168654,
+    "description": "Staged model; exclude experiment",
+    "source_checkpoint": "checkpoints_stage2_exclude_stage3_exclude/stage3_epoch_80.pth",
+    "paper_id": "E3",
+    "parameter_export_exact": true
+  },
+  "E4": {
+    "file": "weights/E4.pth",
+    "sha256": "e029d113d763cb10ac29bf2a10ad0f8a4fa0f314b222a59a3d83de3018159c3f",
+    "bytes": 18168654,
+    "description": "Staged comparison; complete training-site provenance not established",
+    "source_checkpoint": "checkpoints_stage3_exclude/stage3_epoch_70.pth",
+    "paper_id": "E4",
+    "parameter_export_exact": true
+  },
+  "R1": {
+    "file": "weights/R1.pth",
+    "sha256": "55708b3705682fd93d61591304bffa99188c6f68cd648dfb1c6a6b69a1ab67f9",
+    "bytes": 18170240,
+    "description": "Self-supervised initialization; exclusion experiment",
+    "source_checkpoint": "checkpoints_stage1_exclude/stage1_best.pth",
+    "paper_id": null,
+    "parameter_export_exact": true
+  },
+  "R2": {
+    "file": "weights/R2.pth",
+    "sha256": "9c17d2e5af28ea046fd34c4b5adf552e8d1972d25dad6a6fdadfe79219b15c01",
+    "bytes": 18168654,
+    "description": "VDE-distilled initialization; exclusion experiment",
+    "source_checkpoint": "checkpoints_stage2_exclude/stage2_best.pth",
+    "paper_id": null,
+    "parameter_export_exact": true
+  }
+}

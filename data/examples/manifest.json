@@ -1,0 +1,30 @@
+{
+  "role": "example_subset",
+  "n_files": 3,
+  "files": [
+    {
+      "file": "51628_20250106.h5",
+      "station_id": "51628",
+      "date": "20250106",
+      "bytes": 12781678,
+      "sha256": "e458886490a8a0e96f2f5af4dead8ebf57d314536d111d1c1f31ac5c3a055b3d",
+      "source_sha256": "59777dc99ad26b3c8e544b85b6b376a38fd98c52ac0e86518dd28df271f394b7"
+    },
+    {
+      "file": "53845_20250101.h5",
+      "station_id": "53845",
+      "date": "20250101",
+      "bytes": 16026419,
+      "sha256": "0f7f0cbb539b91fbe94b8a21ae7f1e22272f0cdf049e2176387c87c6fdae3655",
+      "source_sha256": "f8defff518f762dd388dc6c2b7c321c5825cb3ba4671e46537e0a703e1faae3a"
+    },
+    {
+      "file": "58847_20250104.h5",
+      "station_id": "58847",
+      "date": "20250104",
+      "bytes": 17019816,
+      "sha256": "a9131a42f3ebeb5daf93e6d53cf99269bf4a189c1aeda17cb69b1a252ac25577",
+      "source_sha256": "ba9a9f6e5eb27f37cffd5832150a03cc07697a755ab1dfdac9432bcb6920898c"
+    }
+  ]
+}

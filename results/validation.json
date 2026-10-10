@@ -1,0 +1,165 @@
+{
+  "version": "1.0.0",
+  "consolidated_utc": "2026-10-10T08:28:03.419708+00:00",
+  "passed": true,
+  "model_numbering": "manuscript result order E1--E5",
+  "weights": {
+    "count": 6,
+    "parameters_only": true,
+    "every_tensor_equal_to_original": true,
+    "metadata": "../lidar_cloud/resources/models.json"
+  },
+  "probability_equivalence": {
+    "comparisons": 12,
+    "same_device": "cuda",
+    "batch_size": 1,
+    "max_abs_error": 0.0
+  },
+  "full_test": {
+    "n_files": 84,
+    "methods": [
+      "E1",
+      "E2",
+      "E3",
+      "E4",
+      "E5"
+    ],
+    "evaluated_pixels_per_method": 42395648,
+    "mask_comparisons": 420,
+    "different_pixels": 0,
+    "max_abs_metric_difference": 0.0,
+    "paper_named_original_CSV_counts_and_metrics_equal": true,
+    "original_CSV_sha256": "2ed406576ff051769220663e4381e8e0316f6fc39465191a06f0fa7b91b9719f",
+    "external_dataset_directory": "../TEST_DATASET",
+    "public_runner": "scripts/run_test_dataset.py",
+    "strict_original_mask_hashes_equal": true,
+    "strict_runner_report": "results/full_test/reproduction.json",
+    "max_boundary_mae_difference_m": 0.022804054054070377,
+    "matched_reference_layer_counts_equal": true
+  },
+  "MAD": {
+    "passed": true,
+    "real_stations": 3,
+    "calibration_days_per_station": 8,
+    "channels_checked": 9,
+    "cap_per_channel": 1000000,
+    "seed": 20260923,
+    "independent_sorted_priority_oracle_max_abs_error": 0.0,
+    "repeat_runs_identical": true,
+    "max_relative_sampling_error_vs_all_positive_values": 0.006747891283917388,
+    "original_normalization_max_abs_error": 0.0,
+    "original_normalization_source_sha256": "bcdd5eafd6de132209570bb10fe52c660da6f7defcc7556325fee9df7bbd0aa1",
+    "reference_config_checks": [
+      {
+        "file": "../examples/station_stats/beijing_kjb.json",
+        "sha256": "84c9608cd53ffa183f688dceee2dd5b78bb848d2e29f8a20ee9707a0b464bed3",
+        "source_config_identical": true,
+        "original_calibration_data_recomputed": false,
+        "source_config_name": "beijing_e3_norm_v1.json"
+      },
+      {
+        "file": "../examples/station_stats/beijing_wxzk.json",
+        "sha256": "a80782934493cd36036315be2f751117456300216aaa35b67dc4dadf6b5b9042",
+        "source_config_identical": true,
+        "original_calibration_data_recomputed": false,
+        "source_config_name": "beijing_wxzk_e3_norm_v1.json"
+      },
+      {
+        "file": "../examples/station_stats/changsha.json",
+        "sha256": "7923898e25bcae5b2000f17d84b7490fc91d6e77d4ccb93ea2581767f7e1c184",
+        "source_config_identical": true,
+        "original_calibration_data_recomputed": false,
+        "source_config_name": "changsha_e3_norm_20260425.json"
+      }
+    ],
+    "paper_appendix_discrepancy": "Appendix A1 describes per-sample 1.4826*MAD + 1e-6; released checkpoint code uses frozen station K=4*MAD + 1e-8, followed by (x+1)/2 without elastic clipping.",
+    "scope": "Estimator and normalization correctness; recomputed test-site statistics are audit examples, not replacements for frozen reproduction statistics. Historical Changsha/Beijing raw calibration periods were not rerun.",
+    "original_normalization_comparisons_count": 45
+  },
+  "short_input_study": {
+    "days": 9,
+    "stations": 3,
+    "windows": 21,
+    "comparisons": 588,
+    "summary": "padding_summary.csv",
+    "evaluation": "real observed pixels only; disagreement with complete context, not accuracy"
+  },
+  "publication_dataset": {
+    "checked_utc": "2026-10-10T08:19:46.453524+00:00",
+    "passed": true,
+    "h5_files": 84,
+    "profiles": 20701,
+    "height_bins": 2048,
+    "evaluated_pixels_per_model": 42395648,
+    "h5_bytes_identical_before_and_after": true,
+    "signal_dtype": "float64",
+    "label_dtype": "uint8",
+    "signal_and_label_shapes_checked": true,
+    "root_entries": [
+      "data/",
+      "results/",
+      "README.md",
+      "manifest.json",
+      "SHA256SUMS"
+    ],
+    "summary_result_files": [
+      "pixel_metrics.csv",
+      "boundary_metrics.csv",
+      "metrics.png"
+    ],
+    "summary_results_equal_to_actual_rerun": true,
+    "filename_pattern": "data/{station_id}_{YYYYMMDD}.h5",
+    "original_420_mask_references_unchanged_except_filenames": true,
+    "pixel_and_boundary_metrics_unchanged_after_rename": true,
+    "publication_zip": "../lidar-cloud-test-v1.zip",
+    "archive_sha256": "4feb78bd88a36d431059171a66c4bbbd170a4ac8f46572c8c9a932234808b908",
+    "payload_files": 90,
+    "database_selected": false,
+    "upload_performed": false
+  },
+  "paper": {
+    "pdf_sha256": "f149e045af85228027d721f9e37c33e46e94d0aa54e0da3ba0789d1ebfb3a8e9",
+    "table_2_displayed_values_checked": 20,
+    "all_table_2_values_equal": true,
+    "known_method_discrepancies": "../docs/paper-correspondence.md"
+  },
+  "prior_automated_tests": {
+    "passed": 51,
+    "failed": 0,
+    "command": "python -m pytest -q",
+    "also_passed_against_installed_wheel_outside_repository": true
+  },
+  "runtime": {
+    "python": "3.12.3",
+    "torch": "2.7.0+cu128",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "h5py": "3.13.0",
+    "matplotlib": "3.9.2",
+    "cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 5080"
+  },
+  "repository_cleanup": {
+    "checked_utc": "2026-10-10T08:36:04.739183+00:00",
+    "passed": true,
+    "core_code_and_runner_files_unchanged": 28,
+    "all_six_weight_sha256_unchanged": true,
+    "example_h5_bytes_unchanged": true,
+    "fresh_noneditable_install_outside_repository": true,
+    "source_tests_passed": 51,
+    "installed_tests_passed": 51,
+    "independent_full_data_integrity_files_checked": 84,
+    "E1_to_E5_subset_scores_unchanged": true,
+    "cpu_prediction_png_csv_h5": true,
+    "MAD_statistics_and_adapted_inference": true,
+    "python_example_and_saved_prediction_plot": true,
+    "height_ceiling_km": 10,
+    "local_markdown_links_checked": 51,
+    "all_20_pixel_table_values_equal_to_reference": true,
+    "full_84_test_rerun_reused": "full_test/reproduction.json; detector code and reference hashes unchanged",
+    "repository_files": 69,
+    "repository_bytes": 157371718,
+    "post_cleanup_installed_runner_integrity_passed": true,
+    "installed_runner_requires_installation": "Install with python -m pip install . before running scripts/run_test_dataset.py."
+  }
+}

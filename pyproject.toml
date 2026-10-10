@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lidar-cloud"
+version = "1.0.0"
+description = "User release of the temporal-vertical lidar cloud detector and reproduced VDE baseline"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "scipy>=1.10", "h5py>=3.8", "torch>=2.2", "matplotlib>=3.7"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+lidar-cloud = "lidar_cloud.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["lidar_cloud*"]
+
+[tool.setuptools.package-data]
+lidar_cloud = ["resources/*.json", "resources/weights/*.pth"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

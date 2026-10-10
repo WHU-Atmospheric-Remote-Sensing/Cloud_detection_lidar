@@ -1,0 +1,13 @@
+{
+  "asset": "lidar-cloud-test-v1.zip",
+  "bytes": 1343409263,
+  "sha256": "4feb78bd88a36d431059171a66c4bbbd170a4ac8f46572c8c9a932234808b908",
+  "expected_files": 84,
+  "local_directory": "../TEST_DATASET",
+  "archive_relative_path": "../lidar-cloud-test-v1.zip",
+  "archive_root": "TEST_DATASET",
+  "manifest_sha256": "e6b16a5380a58ebd06945b48f2d716050ea3247f1eb0b737df5c9a3e01ecadb3",
+  "frozen_stats_sha256": "3f8b9281466b7721a8a13bd83ae1720bbffac2efe0a58f7873302be80c47080f",
+  "filename_pattern": "data/{station_id}_{YYYYMMDD}.h5",
+  "distribution": "Publication package prepared locally; no database selected or upload performed."
+}

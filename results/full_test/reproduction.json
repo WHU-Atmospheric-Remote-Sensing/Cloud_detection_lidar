@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "strict": true,
+  "device": "cuda",
+  "integrity": {
+    "passed": true,
+    "files_checked": 84,
+    "manifest_sha256": "e6b16a5380a58ebd06945b48f2d716050ea3247f1eb0b737df5c9a3e01ecadb3"
+  },
+  "exact_original_pixel_counts": true,
+  "original_mask_comparison": {
+    "comparisons": 420,
+    "exact": true,
+    "different_masks": [],
+    "encoding": "SHA-256 of (T,Z) cloud boolean mask cast to uint8, C order"
+  },
+  "max_abs_pixel_metric_difference": {
+    "E1": 0.0,
+    "E2": 0.0,
+    "E3": 0.0,
+    "E4": 0.0,
+    "E5": 0.0
+  },
+  "max_abs_boundary_mae_difference_m": {
+    "E1": 0.015165557334228197,
+    "E3": 0.022804054054070377,
+    "E5": 2.842170943040401e-14
+  },
+  "pixel_metric_tolerance": 0.002,
+  "boundary_mae_tolerance_m": 0.1,
+  "models": {
+    "E1": "6e2e1544c5068c263c9814ac45469829db35fe0b90a094455af1e55352a3c2c9",
+    "E2": "400b93f0cb0f67c9df542384e5644e920eab66e073d4b9ce82ce0d03d91b7374",
+    "E3": "b3017abb40d67d13219f3f6291b513e3374546224919a06fd1eb8632a16f2615",
+    "E4": "e029d113d763cb10ac29bf2a10ad0f8a4fa0f314b222a59a3d83de3018159c3f"
+  },
+  "protocol": "paper",
+  "threshold": 0.65,
+  "batch_size": 1,
+  "frozen_stats_sha256": "3f8b9281466b7721a8a13bd83ae1720bbffac2efe0a58f7873302be80c47080f"
+}

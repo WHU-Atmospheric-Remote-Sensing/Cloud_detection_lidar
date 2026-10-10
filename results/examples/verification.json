@@ -1,0 +1,139 @@
+{
+  "dataset_role": "subset",
+  "n_files": 3,
+  "protocol": "paper",
+  "threshold": 0.65,
+  "aggregation": "global micro pixel counts",
+  "invalid_pixels": "excluded",
+  "boundary_min_thickness_m": 90,
+  "matching_max_gap_m": 300,
+  "pixel_metrics": [
+    {
+      "method": "E1",
+      "n_files": 3,
+      "tp": 64120,
+      "fp": 2795,
+      "fn": 4077,
+      "tn": 1438384,
+      "iou": 0.9032003606040118,
+      "f1": 0.9491384925099177,
+      "precision": 0.958230591048345,
+      "recall": 0.9402173116119478,
+      "accuracy": 0.9954471251696065
+    },
+    {
+      "method": "E2",
+      "n_files": 3,
+      "tp": 63349,
+      "fp": 2586,
+      "fn": 4848,
+      "tn": 1438593,
+      "iou": 0.894974782080443,
+      "f1": 0.9445769838666388,
+      "precision": 0.960779555622962,
+      "recall": 0.9289118289660836,
+      "accuracy": 0.9950747858717774
+    },
+    {
+      "method": "E3",
+      "n_files": 3,
+      "tp": 65259,
+      "fp": 3259,
+      "fn": 2938,
+      "tn": 1437920,
+      "iou": 0.913275302283923,
+      "f1": 0.9546721281498006,
+      "precision": 0.9524358562713447,
+      "recall": 0.9569189260524656,
+      "accuracy": 0.9958943298422659
+    },
+    {
+      "method": "E4",
+      "n_files": 3,
+      "tp": 65458,
+      "fp": 3414,
+      "fn": 2739,
+      "tn": 1437765,
+      "iou": 0.9140774462023991,
+      "f1": 0.9551101999722768,
+      "precision": 0.9504297827854571,
+      "recall": 0.9598369429740311,
+      "accuracy": 0.9959234809616689
+    },
+    {
+      "method": "E5",
+      "n_files": 3,
+      "tp": 52608,
+      "fp": 7841,
+      "fn": 15589,
+      "tn": 1433338,
+      "iou": 0.6918645940187801,
+      "f1": 0.8178723007322419,
+      "precision": 0.8702873496666611,
+      "recall": 0.771412232209628,
+      "accuracy": 0.9844770289179104
+    }
+  ],
+  "boundary_metrics": [
+    {
+      "method": "E1",
+      "manual_layer_count": 771,
+      "matched_layer_count": 735,
+      "detection_rate": 0.953307392996109,
+      "base_mae_m": 43.59183673469388,
+      "base_bias_m": -7.265306122448982,
+      "base_rmse_m": 92.66793910935708,
+      "top_mae_m": 110.44897959183676,
+      "top_bias_m": -51.673469387755084,
+      "top_rmse_m": 284.794232915698
+    },
+    {
+      "method": "E2",
+      "manual_layer_count": 771,
+      "matched_layer_count": 737,
+      "detection_rate": 0.9559014267185474,
+      "base_mae_m": 47.03527815468112,
+      "base_bias_m": -4.253731343283572,
+      "base_rmse_m": 112.09050302494563,
+      "top_mae_m": 112.77476255088192,
+      "top_bias_m": -66.16689280868385,
+      "top_rmse_m": 294.9615916858971
+    },
+    {
+      "method": "E3",
+      "manual_layer_count": 771,
+      "matched_layer_count": 734,
+      "detection_rate": 0.9520103761348897,
+      "base_mae_m": 47.28882833787466,
+      "base_bias_m": -16.839237057220693,
+      "base_rmse_m": 115.78514114549304,
+      "top_mae_m": 83.358310626703,
+      "top_bias_m": -12.036784741144395,
+      "top_rmse_m": 220.44225735629237
+    },
+    {
+      "method": "E4",
+      "manual_layer_count": 771,
+      "matched_layer_count": 720,
+      "detection_rate": 0.933852140077821,
+      "base_mae_m": 56.49999999999997,
+      "base_bias_m": -24.458333333333307,
+      "base_rmse_m": 156.1029307860682,
+      "top_mae_m": 79.25,
+      "top_bias_m": -1.8749999999999774,
+      "top_rmse_m": 202.32554213445212
+    },
+    {
+      "method": "E5",
+      "manual_layer_count": 771,
+      "matched_layer_count": 696,
+      "detection_rate": 0.9027237354085603,
+      "base_mae_m": 140.38793103448276,
+      "base_bias_m": 107.58620689655173,
+      "base_rmse_m": 319.438151695474,
+      "top_mae_m": 305.51724137931035,
+      "top_bias_m": -161.03448275862073,
+      "top_rmse_m": 548.9082031790391
+    }
+  ]
+}
