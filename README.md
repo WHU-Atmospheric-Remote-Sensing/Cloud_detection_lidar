@@ -37,14 +37,34 @@ Strict mode checks the data and all **420 prediction masks** against the origina
 
 ## Deploy at your station
 
-Prepare the five channels after instrument corrections and temporal averaging, **before MAD, range-squared correction or logarithms**. Estimate and freeze statistics for your own station/instrument:
+### Non-2048 range gates and other resolutions
+
+**E1-E4 accept non-2048 inputs, including 512, 1024 and 1501 gates, and resolutions such as 30 m. Use the same prediction command; no manual padding or gate-count option is needed.**
+
+Store the five channels as `(T,Z)` arrays and provide `coordinates/height_km` with exactly `Z` finite, strictly increasing values. Use the **actual range-aligned height above ground in km**, including the instrument's starting range. With a zero starting range, 1024 gates at 15 m cover about 15.3 km, while 1024 gates at 30 m cover about 30.7 km. See the [minimum H5 layout](docs/input-format.md).
+
+| Input grid | Automatic handling |
+|---|---|
+| A shorter prefix of the 15 m reference grid | Pad raw signals with zero before normalization |
+| Different spacing, starting range or gate count | Interpolate raw signals onto the internal 15 m / 2048-gate grid |
+| Outside the model's 0-30.705 km range | Return NaN probability and mask 255 (invalid) |
+
+Predictions return on **your original grid**, with shape `(T,Z)`. Do not pad transformed features or include synthetic values in MAD calibration. Truncated heights and interpolation can affect cloud boundaries; validate a locally labeled subset. Plots stop at 10 km while numerical outputs retain valid observed heights. E5/VDE additionally requires real 17-18 km background observations, which padding cannot replace.
+
+### Estimate and freeze station MAD
+
+Prepare the five channels after instrument corrections and temporal averaging, **before MAD, range-squared correction or logarithms**. Use at least eight representative calibration days, including day and night, from your own station/instrument:
 
 ```bash
 python -m lidar_cloud compute-stats --input calibration_h5 --station MY-LIDAR --instrument-id receiver-01 --output outputs/station_stats/my_station.json
 python -m lidar_cloud predict --input measurements_h5 --output outputs/my_station --station MY-LIDAR --stats outputs/station_stats/my_station.json
 ```
 
-Use at least eight representative days, including day and night, with the same processing and averaging as inference. Missing or invalid MAD is an error. Check a locally annotated subset before operational use. [Station deployment guide](docs/station-deployment.md) covers calibration, irregular inputs and the separate Changsha/Beijing reference instruments.
+- Keep calibration and inference consistent in instrument, signal preprocessing, temporal averaging and observed height range. Compute statistics from **finite positive measured elastic values only**; exclude padding.
+- MAD is a **fixed scalar per station/instrument and elastic channel** (`1064`, `355p`, `532p`). Reuse the JSON across profiles and windows; do not recompute it for each input or borrow another instrument's values. Missing or invalid MAD raises an error.
+- Elastic normalization is `0.5 * ((signal - median) / (4 * MAD + 1e-8) + 1)`, without clipping, followed by `log1p(normalized_signal * range_km**2)`. VDR channels are clipped to `[0,1]` and receive no MAD, range-squared or log transform. **Pass observation-level signals to the detector; it applies these transformations itself.**
+
+The same commands support 10 profiles and long sequences; use `--profiles 0:10` for ten profiles from a file. Check a locally annotated subset before operational use. The [station deployment guide](docs/station-deployment.md) covers validation and Changsha/Beijing reference instruments.
 
 ## Pretrained weights for reuse
 
