@@ -22,8 +22,6 @@ The elastic normalization is `(signal - median) / (4 × MAD + 1e-8)`, followed b
 
 MAD is per station/instrument and channel; it is not recomputed for every 10-profile inference window. Freeze and reuse the JSON until the detector response or preprocessing changes, then recalibrate and check results again.
 
-**Current PDF discrepancy:** Appendix A1 describes per-sample normalization with `1.4826 × MAD + 1e-6`. The actual checkpoint code uses frozen station statistics and `4 × MAD + 1e-8`, then `(value + 1) / 2`, without elastic clipping. This release preserves that executable implementation: the full-test pixel results reproduce exactly. Substituting the appendix formula changes the checkpoint's input distribution.
-
 ## 3. Run and inspect
 
 ```bash

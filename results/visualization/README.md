@@ -12,4 +12,4 @@ All figures use E3, threshold 0.65, and the paper's turbo 1064 nm curtain with b
 
 Open `outputs/examples/*.png` for the local images; their same-stem `.csv` and `.h5` files contain layer heights and pixel products. `outputs/verification/metrics.png` summarizes the **three-day subset**, and `outputs/station_stats/` contains separately labeled calibration audits. Older duplicated visualization/smoke-test folders are outside the user output tree.
 
-[Annotation efficiency](annotation_efficiency.png) is the paper's pretraining/data-size figure. The three curtains above are new release examples using its display conventions, rather than reproduced Fig. 6 panels. [Validation summary](../validation.json) records the execution checks.
+[Annotation efficiency](annotation_efficiency.png) is the paper's pretraining/data-size figure. The three curtains above are executed release examples using the same display conventions. [Validation summary](../validation.json) records the execution checks.

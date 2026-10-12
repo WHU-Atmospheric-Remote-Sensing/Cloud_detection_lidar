@@ -40,7 +40,7 @@ See [python_usage.py](../examples/python_usage.py) for a runnable 10-profile exa
 
 The reference sampling is 5 min, 15 m, and 2048 height bins. The internal vertical compression keeps bins 0–799, averages bins 800–1599 by four and the remaining bins by eight (1056 elements). Raw elastic signals undergo station MAD, then `log1p(normalized_signal × range_km²)`; VDR is clipped to `[0,1]`.
 
-Frozen checkpoint normalization uses `K=4`, not the per-sample `1.4826 × MAD` expression in the current PDF appendix. See the [implementation discrepancy](station-deployment.md) before substituting preprocessing.
+Normalization uses fixed station/instrument statistics: `0.5 * ((signal - median) / (4 * MAD + 1e-8) + 1)`, without elastic clipping. See the [station calibration guide](station-deployment.md).
 
 Use the default batch size one when comparing individual probabilities with the original implementation. Larger GPU batches can introduce small floating-point differences near the threshold; complete test metrics remain subject to the documented reproduction tolerance.
 
@@ -66,9 +66,9 @@ Inputs are never overwritten. Do not interpret mask 255 or a padded/unobserved i
 
 ## Visualization
 
-`predict` creates a **paper-style PNG by default**, matching the manuscript's 1064 nm curtain: `turbo` palette, `log1p(max(signal,0) × range_km²)` background and black cloud-mask contours with white halos. The natural logarithm and percentile color scaling follow the original paper plotting script; the colorbar retains its `log(P·R²)` notation. Solid contours show the selected model; dotted contours explicitly denote **manual annotation**, not the paper's direct-supervised comparator. No additional model is inferred for plotting. The plot includes every detected component; it does not remove false detections for presentation.
+`predict` creates a **paper-style PNG by default**, matching the manuscript's 1064 nm curtain: `turbo` palette, `log1p(max(signal,0) × range_km²)` background and black cloud-mask contours with white halos. The natural logarithm and percentile color scaling follow the original paper plotting script; the colorbar retains its `log(P·R²)` notation. Solid contours show the selected model; dotted contours show **manual annotation** when available. The plot displays all detected components.
 
-The display ceiling is **10 km**. With a known station elevation, the axis is altitude above sea level, as in the paper. The three reference-site elevations are documented in `resources/stations.json`; your own `station_elevation_m` attribute takes precedence. Without an elevation the axis is explicitly height above ground. This choice affects only display: H5/CSV coordinates and evaluation remain above ground. White space below the site's elevation is unobserved ground-relative range, not clear atmosphere.
+The display ceiling is **10 km**. With a known station elevation, the axis is altitude above sea level, as in the paper. The three reference-site elevations are documented in [station metadata](../lidar_cloud/resources/stations.json); your own `station_elevation_m` attribute takes precedence. Without an elevation the axis is explicitly height above ground. This choice affects only display: H5/CSV coordinates and evaluation remain above ground. White space below the site's elevation is unobserved ground-relative range, not clear atmosphere.
 
 Use `--plot-style overview` for diagnostic signal/probability/mask panels in above-ground coordinates. `--plot-height-km` changes the display ceiling without cropping inference or evaluation; `--no-plots` disables automatic PNGs. Single-profile images use a cell of `--cadence-seconds` width and contain only the real profile. Invalid observations are gray and time gaps remain blank. Mask contours may include thinner components than the CSV's 90 m layer minimum; a contour clipped at the display ceiling does not establish a physical cloud top.
 

@@ -17,7 +17,7 @@ Each day produces **one PNG, one layer-height CSV and one prediction H5**, named
 
 Plots show the 1064 nm signal up to **10 km**, with solid model contours and dotted manual labels. Saved predictions retain the full observed height range. [All example figures](results/visualization/README.md).
 
-For 10 profiles, select one H5 with `--profiles 0:10`; omit the option for the whole sequence. Single profiles are supported but not recommended. [Input/output guide](docs/input-format.md) ? [Python example](examples/python_usage.py).
+For 10 profiles, select one H5 with `--profiles 0:10`; omit the option for the whole sequence. Single profiles are supported but not recommended. [Input/output guide](docs/input-format.md) / [Python example](examples/python_usage.py).
 
 ## Verify results
 
@@ -25,7 +25,7 @@ For 10 profiles, select one H5 with `--profiles 0:10`; omit the option for the w
 python -m lidar_cloud verify --data data/examples --output outputs/verification
 ```
 
-Open `outputs/verification/metrics.png`. The accompanying CSV/JSON files report E1?E5 scores for the **three-day subset**, not the full test.
+Open `outputs/verification/metrics.png`. The accompanying CSV/JSON files report E1-E5 scores for the **three-day subset**, not the full test.
 
 Place the separate 84-file `TEST_DATASET` beside this repository, then run:
 
@@ -33,7 +33,7 @@ Place the separate 84-file `TEST_DATASET` beside this repository, then run:
 python scripts/run_test_dataset.py --device cuda --strict
 ```
 
-Strict mode checks the data and all **420 prediction masks** against the original implementation. Outputs are in `outputs/verification/full_test/`; open `metrics.png` and `reproduction.json`. Omit `--device cuda` for CPU; use `--check-only` for integrity only. [Full-test instructions](docs/test-dataset.md) ? [Archive checksum](results/test_dataset.json).
+Strict mode checks the data and all **420 prediction masks** against the original implementation. Outputs are in `outputs/verification/full_test/`; open `metrics.png` and `reproduction.json`. Omit `--device cuda` for CPU; use `--check-only` for integrity only. [Full-test instructions](docs/test-dataset.md) / [Archive checksum](results/test_dataset.json).
 
 ## Deploy at your station
 
@@ -48,7 +48,7 @@ Use at least eight representative days, including day and night, with the same p
 
 ## Pretrained weights for reuse
 
-**R1/R2 are reusable initialization weights; E1?E4 are final detectors, including the staged E3/E4 models.** All six checkpoints contain model parameters only, about 17.33 MiB each. E5 is the reproduced VDE baseline and has no neural weights. Training code, training data and optimizer states are outside this user release.
+**R1/R2 are reusable initialization weights; E1-E4 are final detectors, including the staged E3/E4 models.** All six checkpoints contain model parameters only, about 17.33 MiB each. E5 is the reproduced VDE baseline and has no neural weights. Training code, training data and optimizer states are outside this user release.
 
 ```python
 from lidar_cloud import load_model, load_backbone
@@ -56,11 +56,11 @@ pretrained = load_model("R1")    # includes reconstruction head
 backbone = load_backbone("R2")  # attach your own task head
 ```
 
-[Weight sources and checksums](lidar_cloud/resources/models.json) ? [Python usage](examples/README.md) ? [Paper annotation-efficiency figure](results/visualization/annotation_efficiency.png).
+[Weight sources and checksums](lidar_cloud/resources/models.json) / [Python usage](examples/README.md) / [Paper annotation-efficiency figure](results/visualization/annotation_efficiency.png).
 
 ## Reference results
 
-E1?E5 follow the manuscript's result order. The pixel values below match Table 2 and the original full-test implementation.
+E1-E5 follow the manuscript's result order. The pixel values below match Table 2 and the original full-test implementation.
 
 | Model | Configuration | IoU | F1 | Precision | Recall |
 |---|---|---:|---:|---:|---:|
@@ -70,7 +70,7 @@ E1?E5 follow the manuscript's result order. The pixel values below match Table 2
 | E4 | Staged comparison detector | 0.877 | 0.935 | 0.924 | 0.945 |
 | E5 | Reproduced VDE | 0.540 | 0.702 | 0.639 | 0.778 |
 
-Paper Table 3 boundary values are shown below; E2 is an additional evaluation.
+Rounded reference boundary values are shown below; E2 is an additional evaluation.
 
 | Model | Cloud-base MAE (m) | Detectable-top MAE (m) | Layer detection |
 |---|---:|---:|---:|
@@ -79,7 +79,7 @@ Paper Table 3 boundary values are shown below; E2 is an additional evaluation.
 | E3 | 59.1 | 82.2 | 93.9% |
 | E5 | 123.6 | 250.7 | 86.0% |
 
-The executable boundary rerun differs from archived values by at most 0.023 m because of floating-point matching ties; E1 base/E3 top round to 55.4/82.3 in that rerun. [Measured results](results/README.md) retain the distinction. The release follows verified checkpoint preprocessing (frozen station MAD, K=4); [paper correspondence](docs/paper-correspondence.md) documents the PDF's normalization/provenance discrepancies and VDE teacher/baseline distinction.
+Full-precision rerun scores are in [measured results](results/README.md). Boundary-MAE differences from archived values are at most 0.023 m due to floating-point matching ties. See [reference checks and release conventions](docs/paper-correspondence.md).
 
 ## Repository guide
 
@@ -87,7 +87,7 @@ The executable boundary rerun differs from archived values by at most 0.023 m be
 |---|---|
 | `lidar_cloud/` | Inference, calibration, evaluation, visualization and six parameter-only weights |
 | `data/` | Three labeled example days and their manifest |
-| `docs/` | Input format, station deployment, full-test and paper correspondence guides |
+| `docs/` | Input format, station deployment, full-test and reference-check guides |
 | `examples/` | Python usage and historical instrument-statistics configurations |
 | `scripts/` | Strict full-test runner |
 | `results/` | Reference scores, figures and one consolidated validation summary |
