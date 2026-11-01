@@ -1,6 +1,10 @@
 # Cloud-layer detection from ground-based lidar
 
-User release of **A Self-Supervised and Distillation-Guided Framework for Robust Cloud-Layer Identification in Multi-Channel Raman Lidar Networks**. Five lidar channels produce cloud probabilities, masks, cloud bases and **detectable cloud tops**. Default detector: **E3**, threshold **0.65**.
+User release of [**A Self-Supervised and Distillation-Guided Framework for Robust Cloud-Layer Identification in Multi-Channel Raman Lidar Networks**](https://amt.copernicus.org/articles/19/6757/2026/amt-19-6757-2026.html). Five lidar channels produce cloud probabilities, masks, cloud bases and **detectable cloud tops**. Default detector: **E3**, threshold **0.65**.
+
+If you use this code, please cite the following reference:
+
+> Zou, W., Yin, Z., Sun, T., Bu, Z., Dai, Y., Wang, H., Wang, L., He, Y., Li, S., Chen, J., Wang, X., Li, S., and Müller, D.: A self-supervised and distillation-guided framework for robust cloud-layer identification in multi-channel Raman lidar networks, Atmos. Meas. Tech., 19, 6757–6779, https://doi.org/10.5194/amt-19-6757-2026, 2026.
 
 ## Install and run
 
@@ -114,4 +118,4 @@ Full-precision rerun scores are in [measured results](results/README.md). Bounda
 | `tests/` | Inference/calibration/reproduction checks |
 | `outputs/` | Local generated predictions, scores and statistics; excluded from Git |
 
-Cite the manuscript title above and release version 1.0.0; the final DOI is pending. [MIT License](LICENSE) applies to code and released weights. CARLNET observation-data terms are supplied separately by the data owner.
+[MIT License](LICENSE) applies to code and released weights. CARLNET observation-data terms are supplied separately by the data owner.
